@@ -1,80 +1,115 @@
 const Property = require("../models/property");
 
 exports.getAllProperties = async (req, res) => {
-  const properties = await Property.find();
+  try {
+    const properties = await Property.find();
 
-  res.status(200).json({
-    success: true,
-    properties,
-  });
+    res.status(200).json({
+      success: true,
+      properties,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Internal Server Error",
+    });
+  }
 };
 
 exports.addProperty = async (req, res) => {
-  const { propertyName, propertyAddress, rooms, toilets, area } = req.body;
-  const property = await Property.create({
-    propertyName,
-    propertyAddress,
-    rooms,
-    toilets,
-    area,
-  });
+  try {
+    const { propertyName, propertyAddress, rooms, toilets, area } = req.body;
+    const property = await Property.create({
+      propertyName,
+      propertyAddress,
+      rooms,
+      toilets,
+      area,
+    });
 
-  res.status(201).json({
-    success: true,
-    property,
-  });
+    res.status(201).json({
+      success: true,
+      property,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Internal Server Error",
+    });
+  }
 };
 
 exports.getProperty = async (req, res) => {
-  let property = await Property.findById(req.params.id);
-  if (!property) {
-    return res.status(404).json({
+  try {
+    let property = await Property.findById(req.params.id);
+    if (!property) {
+      return res.status(404).json({
+        success: false,
+        message: "property not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      property,
+    });
+  } catch (error) {
+    return res.status(500).json({
       success: false,
-      message: "property not found",
+      message: error.message || "Internal Server Error",
     });
   }
-
-  return res.status(200).json({
-    success: true,
-    property,
-  });
 };
 
 exports.updateProperty = async (req, res) => {
-  let property = await Property.findById(req.params.id);
+  try {
+    let property = await Property.findById(req.params.id);
 
-  if (!property) {
-    return res.status(404).json({
+    if (!property) {
+      return res.status(404).json({
+        success: false,
+        message: "property not found",
+      });
+    }
+
+    property = await Property.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
+
+    res.status(200).json({
+      success: true,
+      property,
+    });
+  } catch (error) {
+    return res.status(500).json({
       success: false,
-      message: "property not found",
+      message: error.message || "Internal Server Error",
     });
   }
-
-  property = await Property.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-    useFindAndModify: false,
-  });
-
-  res.status(200).json({
-    success: true,
-    property,
-  });
 };
 
 exports.deleteProperty = async (req, res) => {
-  const property = await Property.findById(req.params.id);
+  try {
+    const property = await Property.findById(req.params.id);
 
-  if (!property) {
-    return res.status(404).json({
+    if (!property) {
+      return res.status(404).json({
+        success: false,
+        message: "property not found",
+      });
+    }
+
+    property.deleteOne();
+
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
       success: false,
-      message: "property not found",
+      message: error.message || "Internal Server Error",
     });
   }
-
-  property.deleteOne();
-
-  res.status(200).json({
-    success: true,
-  });
 };
