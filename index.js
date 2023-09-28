@@ -4,12 +4,12 @@ const path = require('path')
 const connectToMongo = require('./config/dbConnection')
 
 
-// handle Uncaught exceptions
-process.on('uncaughtException',(err)=>{
-    console.log(`Error: ${err.message}`);
-    console.log('Shutting down the server due to Uncaught exceptions');
-    process.exit(1);
-})
+// // handle Uncaught exceptions
+// process.on('uncaughtException',(err)=>{
+//     console.log(`Error: ${err.message}`);
+//     console.log('Shutting down the server due to Uncaught exceptions');
+//     process.exit(1);
+// })
 
 
 // Route imports
@@ -37,13 +37,13 @@ app.use('/api',property)
 
 const server = app.listen(process.env.PORT,()=>console.log(`Server Running on port: ${process.env.PORT}`))
 
-// Unhandled rejection
+// // Unhandled rejection
 
-process.on('unhandledRejection',(err)=>{
-    console.log(`Error: ${err.message}`);
-    console.log('Shutting down the server due to unhandled promise rejection');
+// process.on('unhandledRejection',(err)=>{
+//     console.log(`Error: ${err.message}`);
+//     console.log('Shutting down the server due to unhandled promise rejection');
 
-    server.close(()=>{
-        process.exit(1);
-    })
-})
+//     server.close(()=>{
+//         process.exit(1);
+//     })
+// })
