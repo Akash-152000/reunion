@@ -2,7 +2,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 const path = require('path')
 const connectToMongo = require('./config/dbConnection')
-
+const errorMiddleware = require('./middlewares/error')
 
 // // handle Uncaught exceptions
 // process.on('uncaughtException',(err)=>{
@@ -24,6 +24,7 @@ dotenv.config()
 // Middlewares
 app.use(express.static(path.resolve('./public')))
 app.use(express.json())
+app.use(errorMiddleware)
 
 // MongoDB Connection
 connectToMongo();

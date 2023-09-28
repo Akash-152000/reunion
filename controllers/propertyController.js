@@ -1,4 +1,5 @@
 const Property = require("../models/property");
+const catchAsyncErrors = require('../utils/catchAsyncErrors')
 
 exports.getAllProperties = async (req, res) => {
   try {
@@ -9,10 +10,7 @@ exports.getAllProperties = async (req, res) => {
       properties,
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message || "Internal Server Error",
-    });
+    catchAsyncErrors(error,req,res)
   }
 };
 
@@ -32,10 +30,8 @@ exports.addProperty = async (req, res) => {
       property,
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message || "Internal Server Error",
-    });
+    console.log("debug",error.name);
+    catchAsyncErrors(error,req,res)
   }
 };
 
@@ -54,10 +50,8 @@ exports.getProperty = async (req, res) => {
       property,
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message || "Internal Server Error",
-    });
+    catchAsyncErrors(error,req,res)
+    
   }
 };
 
@@ -83,10 +77,7 @@ exports.updateProperty = async (req, res) => {
       property,
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message || "Internal Server Error",
-    });
+    catchAsyncErrors(error,req,res)
   }
 };
 
@@ -107,9 +98,7 @@ exports.deleteProperty = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message || "Internal Server Error",
-    });
+    catchAsyncErrors(error,req,res)
+
   }
 };
