@@ -1,10 +1,11 @@
+const catchAsyncErrors = require('../middlewares/catchAsyncErrors')
 const Property = require('../models/property')
 
 exports.getAllProperties = (req,res)=>{
 
 }
 
-exports.addProperties = async (req,res)=>{
+exports.addProperty = catchAsyncErrors( async (req,res)=>{
     const {propertyName,propertyAddress,rooms,toilets,area} = req.body
     const property  = await Property.create({propertyName,propertyAddress,rooms,toilets,area})
 
@@ -12,4 +13,4 @@ exports.addProperties = async (req,res)=>{
         success:true,
         property
     })
-}
+})
