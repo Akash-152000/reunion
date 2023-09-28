@@ -4,17 +4,26 @@ const path = require('path')
 const connectToMongo = require('./config/dbConnection')
 
 
-// Config
-dotenv.config()
+// Route imports
+const property = require('./routes/propertyRoute')
 
 const app = express();
 
+// Config
+dotenv.config()
+
+
+
 // Middlewares
 app.use(express.static(path.resolve('./public')))
+app.use(express.json())
 
 // MongoDB Connection
 connectToMongo();
 
+
+// Routes
+app.use('/api',property)
 
 
 
