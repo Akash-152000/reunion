@@ -1,4 +1,4 @@
-const Property = require("../models/property");
+const Property = require("../models/propertyModel");
 const catchAsyncErrors = require('../utils/catchAsyncErrors')
 
 exports.getAllProperties = async (req, res) => {

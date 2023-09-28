@@ -2,7 +2,6 @@ const express = require('express')
 const dotenv = require('dotenv')
 const path = require('path')
 const connectToMongo = require('./config/dbConnection')
-const errorMiddleware = require('./middlewares/error')
 
 // // handle Uncaught exceptions
 // process.on('uncaughtException',(err)=>{
@@ -14,6 +13,7 @@ const errorMiddleware = require('./middlewares/error')
 
 // Route imports
 const property = require('./routes/propertyRoute')
+const user = require('./routes/userRoute')
 
 const app = express();
 
@@ -24,7 +24,6 @@ dotenv.config()
 // Middlewares
 app.use(express.static(path.resolve('./public')))
 app.use(express.json())
-app.use(errorMiddleware)
 
 // MongoDB Connection
 connectToMongo();
@@ -32,6 +31,7 @@ connectToMongo();
 
 // Routes
 app.use('/api',property)
+app.use('/api',user)
 
 
 
