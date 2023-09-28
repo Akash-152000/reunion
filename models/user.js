@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Name is required"],
@@ -30,4 +30,4 @@ const userSchema = mongoose.Schema({
   },
 });
 
-module.export = mongoose.model('User',userSchema);
+module.export = mongoose.model("User", userSchema);
