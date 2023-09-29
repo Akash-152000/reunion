@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 const path = require('path')
 const connectToMongo = require('./config/dbConnection')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 
 // // handle Uncaught exceptions
 // process.on('uncaughtException',(err)=>{
@@ -26,6 +27,7 @@ dotenv.config()
 app.use(express.static(path.resolve('./public')))
 app.use(express.json())
 app.use(cookieParser())
+app.use(cors())
 
 // MongoDB Connection
 connectToMongo();
