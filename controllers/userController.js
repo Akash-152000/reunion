@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const catchAsyncErrors = require("../utils/catchAsyncErrors");
 const catchErrors = require("../utils/catchErrors");
-const sendToken = require('../utils/sendToken')
+const sendToken = require("../utils/sendToken");
 
 exports.signup = async (req, res) => {
   try {
@@ -16,24 +16,23 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    
+
     if (!email || !password) {
-      catchErrors(400, "Please provide both Email and Password!!", res);
+      return catchErrors(400, "Please provide both Email and Password!!", res);
     }
 
     const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
-      catchErrors(401, "Invalid Email or Password!!", res);
+      return catchErrors(401, "Invalid Email or Password!!", res);
     }
 
-    const isPasswordMatched = await user.comparePassword(password)
+    const isPasswordMatched = await user.comparePassword(password);
 
-    if(!isPasswordMatched){
-        catchErrors(401, "Invalid Email or Password!!", res);
+    if (!isPasswordMatched) {
+      return catchErrors(401, "Invalid Email or Password!!", res);
     }
     sendToken(user, 200, res);
-
   } catch (error) {
     catchAsyncErrors(error, req, res);
   }
@@ -46,7 +45,7 @@ exports.logout = async (req, res) => {
   });
 
   res.status(200).json({
-    success:true,
-    message:"logged out"
-  })
+    success: true,
+    message: "logged out",
+  });
 };

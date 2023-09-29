@@ -21,6 +21,14 @@ const catchAsyncErrors = (error, req, res) => {
     });
   }
 
+  // Wrong JWT error
+  if (error.code === "JsonWebTokenError") {
+    return res.status(400).json({
+      success: false,
+      message: "Json web token is invalid please try again",
+    });
+  }
+
   res.status(500).json({
     success: false,
     message: error.message || "Internal Server error",

@@ -1,5 +1,6 @@
 const Property = require("../models/propertyModel");
-const catchAsyncErrors = require('../utils/catchAsyncErrors')
+const catchAsyncErrors = require("../utils/catchAsyncErrors");
+const catchErrors = require("../utils/catchErrors");
 
 exports.getAllProperties = async (req, res) => {
   try {
@@ -10,19 +11,34 @@ exports.getAllProperties = async (req, res) => {
       properties,
     });
   } catch (error) {
-    catchAsyncErrors(error,req,res)
+    catchAsyncErrors(error, req, res);
   }
 };
 
 exports.addProperty = async (req, res) => {
   try {
-    const { propertyName, propertyAddress, rooms, toilets, area } = req.body;
-    const property = await Property.create({
+    const {
       propertyName,
       propertyAddress,
+      city,
+      state,
+      price,
+      propertyType,
       rooms,
       toilets,
       area,
+    } = req.body;
+    const property = await Property.create({
+      propertyName,
+      propertyAddress,
+      city,
+      state,
+      price,
+      propertyType,
+      rooms,
+      toilets,
+      area,
+      user: req.user,
     });
 
     res.status(201).json({
@@ -30,19 +46,17 @@ exports.addProperty = async (req, res) => {
       property,
     });
   } catch (error) {
-    console.log("debug",error.name);
-    catchAsyncErrors(error,req,res)
+    catchAsyncErrors(error, req, res);
   }
 };
 
 exports.getProperty = async (req, res) => {
   try {
-    let property = await Property.findById(req.params.id);
+    console.log(req.user);
+    let property = await Property.find({ user: req.user._id });
+
     if (!property) {
-      return res.status(404).json({
-        success: false,
-        message: "property not found",
-      });
+      return catchErrors(404, "Property not found", res);
     }
 
     return res.status(200).json({
@@ -50,8 +64,7 @@ exports.getProperty = async (req, res) => {
       property,
     });
   } catch (error) {
-    catchAsyncErrors(error,req,res)
-    
+    catchAsyncErrors(error, req, res);
   }
 };
 
@@ -60,10 +73,11 @@ exports.updateProperty = async (req, res) => {
     let property = await Property.findById(req.params.id);
 
     if (!property) {
-      return res.status(404).json({
-        success: false,
-        message: "property not found",
-      });
+      return catchErrors(404, "Property not found", res);
+    }
+
+    if (!(property.user._id.toString() === req.user._id.toString())) {
+      return catchErrors(401, "You are not allowed to Edit this resource", res);
     }
 
     property = await Property.findByIdAndUpdate(req.params.id, req.body, {
@@ -77,7 +91,7 @@ exports.updateProperty = async (req, res) => {
       property,
     });
   } catch (error) {
-    catchAsyncErrors(error,req,res)
+    catchAsyncErrors(error, req, res);
   }
 };
 
@@ -86,10 +100,7 @@ exports.deleteProperty = async (req, res) => {
     const property = await Property.findById(req.params.id);
 
     if (!property) {
-      return res.status(404).json({
-        success: false,
-        message: "property not found",
-      });
+      return catchErrors(404, "Property not found", res);
     }
 
     property.deleteOne();
@@ -98,7 +109,6 @@ exports.deleteProperty = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    catchAsyncErrors(error,req,res)
-
+    catchAsyncErrors(error, req, res);
   }
 };

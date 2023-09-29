@@ -9,6 +9,28 @@ const propertySchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter property Address"],
   },
+  city: {
+    type: String,
+    required: [true, "Please enter the City"],
+  },
+  state: {
+    type: String,
+    required: [true, "Please enter the State"],
+  },
+  availableFrom: {
+    type: Date,
+    required: [true, "Please Enter the Date"],
+    default: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+  },
+  price: {
+    type: Number,
+    required: [true, "Please enter Price"],
+    minLength: [3, "Price cannot be less than 3 characters"],
+  },
+  propertyType: {
+    type: String,
+    required: [true, "Please enter Property type"],
+  },
   rooms: {
     type: Number,
     required: [true, "Please enter No.of Rooms"],
@@ -28,11 +50,11 @@ const propertySchema = new mongoose.Schema({
     type: String,
     default: "/images/default_property.jpg",
   },
-//   user: {
-//     type: mongoose.Schema.ObjectId,
-//     ref: "User",
-//     required: true,
-//   },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
