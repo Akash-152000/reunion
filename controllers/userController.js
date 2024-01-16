@@ -3,8 +3,27 @@ const catchAsyncErrors = require("../utils/catchAsyncErrors");
 const catchErrors = require("../utils/catchErrors");
 const sendToken = require("../utils/sendToken");
 
+exports.myprofile = async(req,res)=>{
+try {
+    let user = await User.find({ user: req.user._id });
+
+    if (!user) {
+      return catchErrors(404, "User not found", res);
+    }
+
+    return res.status(200).json({
+      success: true,
+      msg:'hello',
+      user:req.user
+    })
+} catch (error) {
+  catchAsyncErrors(error, req, res);
+}
+}
+
 exports.signup = async (req, res) => {
   try {
+    console.log(req.body)
     const user = await User.create(req.body);
 
     sendToken(user, 201, res);
@@ -15,6 +34,7 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
+    console.log('login')
     const { email, password } = req.body;
 
     if (!email || !password) {

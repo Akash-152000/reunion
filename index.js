@@ -1,9 +1,9 @@
-const express = require('express')
-const dotenv = require('dotenv')
-const path = require('path')
-const connectToMongo = require('./config/dbConnection')
-const cookieParser = require('cookie-parser')
-const cors = require('cors')
+const express = require("express");
+const dotenv = require("dotenv");
+const path = require("path");
+const connectToMongo = require("./config/dbConnection");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 // // handle Uncaught exceptions
 // process.on('uncaughtException',(err)=>{
@@ -12,35 +12,35 @@ const cors = require('cors')
 //     process.exit(1);
 // })
 
-
 // Route imports
-const property = require('./routes/propertyRoute')
-const user = require('./routes/userRoute')
+const property = require("./routes/propertyRoute");
+const user = require("./routes/userRoute");
 
 const app = express();
 
 // Config
-dotenv.config()
-
+dotenv.config();
 
 // Middlewares
-app.use(express.static(path.resolve('./public')))
-app.use(express.json())
-app.use(cookieParser())
-app.use(cors())
+app.use(express.static(path.resolve("./public")));
+app.use(express.json());
+app.use(cookieParser());
+const corsOptions = {
+  origin: "http://localhost:5173",
+  credentials: true, // Enable credentials (cookies) in cross-origin requests
+};
+app.use(cors(corsOptions));
 
 // MongoDB Connection
 connectToMongo();
 
-
 // Routes
-app.use('/api',user)
-app.use('/api',property)
+app.use("/api", user);
+app.use("/api", property);
 
-
-
-
-const server = app.listen(process.env.PORT,()=>console.log(`Server Running on port: ${process.env.PORT}`))
+const server = app.listen(process.env.PORT, () =>
+  console.log(`Server Running on port: ${process.env.PORT}`)
+);
 
 // // Unhandled rejection
 
