@@ -5,17 +5,26 @@ const propertySchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter property Name"],
   },
+  propertyDescription: {
+    type: String,
+  },
   propertyAddress: {
-    type: String,
-    required: [true, "Please enter property Address"],
-  },
-  city: {
-    type: String,
-    required: [true, "Please enter the City"],
-  },
-  state: {
-    type: String,
-    required: [true, "Please enter the State"],
+    coordinates: {
+      type: [Number],
+      default: [0, 0],
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: [true, "Please enter the City"],
+    },
+    state: {
+      type: String,
+      required: [true, "Please enter the State"],
+    },
   },
   availableFrom: {
     type: Date,
@@ -50,12 +59,35 @@ const propertySchema = new mongoose.Schema({
     type: String,
     default: "/images/default_property.jpg",
   },
+  category: {
+    type: String,
+    required: true,
+    enum: ["rent", "buy"],
+  },
+  amenities: {
+    nearbyHospital: {
+      type: Number,
+    },
+    nearbySchool: {
+      type: Number,
+    },
+    nearbyBusStation: {
+      type: Number,
+    },
+    nearbyRailwayStation: {
+      type: Number,
+    },
+  },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
     required: true,
   },
   createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
     type: Date,
     default: Date.now,
   },

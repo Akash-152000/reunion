@@ -16,28 +16,31 @@ exports.getAllProperties = async (req, res) => {
 };
 
 exports.addProperty = async (req, res) => {
+  console.log(req.body)
   try {
     const {
       propertyName,
+      propertyDescription,
       propertyAddress,
-      city,
-      state,
       price,
       propertyType,
       rooms,
       toilets,
       area,
+      category,
+      amenities
     } = req.body;
     const property = await Property.create({
       propertyName,
+      propertyDescription,
       propertyAddress,
-      city,
-      state,
       price,
       propertyType,
       rooms,
       toilets,
       area,
+      category,
+      amenities,
       user: req.user,
     });
 

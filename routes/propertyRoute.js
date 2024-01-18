@@ -4,6 +4,7 @@ const {isAuthenticated, authorizeRoles} = require('../middlewares/auth')
 const router = express.Router()
 
 router.route('/list-properties').get(getAllProperties)
+router.route('/addproperty').post(isAuthenticated,authorizeRoles("owner"),addProperty)
 router.route('/property').post(isAuthenticated,authorizeRoles("owner"),addProperty).get(isAuthenticated,authorizeRoles("owner"),getProperty)
 router.route('/property/:id').delete(isAuthenticated,authorizeRoles("owner"),deleteProperty).put(isAuthenticated,authorizeRoles("owner"),updateProperty)
 
