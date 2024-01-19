@@ -71,6 +71,24 @@ exports.getProperty = async (req, res) => {
   }
 };
 
+exports.getSingleProperty = async(req,res)=>{
+  try {
+    let property = await Property.findById(req.params.id);
+    if (!property) {
+      return catchErrors(404, "Property not found", res);
+    }
+
+    res.status(200).json({
+      success: true,
+      property,
+    })
+    
+  } catch (error) {
+    catchAsyncErrors(error,req,res)
+    
+  }
+}
+
 exports.updateProperty = async (req, res) => {
   try {
     let property = await Property.findById(req.params.id);

@@ -26,7 +26,7 @@ app.use(express.static(path.resolve("./public")));
 app.use(express.json());
 app.use(cookieParser());
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "http://localhost:5174",
   credentials: true, // Enable credentials (cookies) in cross-origin requests
 };
 app.use(cors(corsOptions));
