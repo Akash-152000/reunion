@@ -8,23 +8,18 @@ const propertySchema = new mongoose.Schema({
   propertyDescription: {
     type: String,
   },
-  propertyAddress: {
-    coordinates: {
-      type: [Number],
-      default: [0, 0],
-    },
-    address: {
-      type: String,
-      required: true,
-    },
-    city: {
-      type: String,
-      required: [true, "Please enter the City"],
-    },
-    state: {
-      type: String,
-      required: [true, "Please enter the State"],
-    },
+
+  address: {
+    type: String,
+    // required: true,
+  },
+  city: {
+    type: String,
+    // required: [true, "Please enter the City"],
+  },
+  state: {
+    type: String,
+    // required: [true, "Please enter the State"],
   },
   availableFrom: {
     type: Date,
@@ -64,20 +59,20 @@ const propertySchema = new mongoose.Schema({
     required: true,
     enum: ["rent", "buy"],
   },
-  amenities: {
-    nearbyHospital: {
-      type: Number,
-    },
-    nearbySchool: {
-      type: Number,
-    },
-    nearbyBusStation: {
-      type: Number,
-    },
-    nearbyRailwayStation: {
-      type: Number,
-    },
+
+  nearbyHospital: {
+    type: Number,
   },
+  nearbySchool: {
+    type: Number,
+  },
+  nearbyBusStation: {
+    type: Number,
+  },
+  nearbyRailwayStation: {
+    type: Number,
+  },
+
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",

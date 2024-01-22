@@ -23,8 +23,8 @@ exports.myprofile = async (req, res) => {
 exports.updateuser = async (req, res) => {
   try {
     console.log("payload",req.body.payload)
-    const {name,phone,email,address} = req.body.payload
-    console.log(name)
+    const {name, phone, email, address} = req.body.payload
+    console.log(req.body.payload)
     const newUser = {
       name: name,
       phone: phone,

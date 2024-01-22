@@ -21,26 +21,36 @@ exports.addProperty = async (req, res) => {
     const {
       propertyName,
       propertyDescription,
-      propertyAddress,
+      address,
+      city,
+      state,
       price,
       propertyType,
       rooms,
       toilets,
       area,
       category,
-      amenities
+      nearbyHospital,
+      nearbySchool,
+      nearbyBusStation,
+      nearbyRailwayStation
     } = req.body;
     const property = await Property.create({
       propertyName,
       propertyDescription,
-      propertyAddress,
+      address,
+      city,
+      state,
       price,
       propertyType,
       rooms,
       toilets,
       area,
       category,
-      amenities,
+      nearbyHospital,
+      nearbySchool,
+      nearbyBusStation,
+      nearbyRailwayStation,
       user: req.user,
     });
 
@@ -90,9 +100,9 @@ exports.getSingleProperty = async(req,res)=>{
 }
 
 exports.updateProperty = async (req, res) => {
+  console.log(req.body);
   try {
     let property = await Property.findById(req.params.id);
-
     if (!property) {
       return catchErrors(404, "Property not found", res);
     }
